@@ -1,36 +1,44 @@
-// Variables
-
-const carritoElement = document.querySelector("#carrito");
-const contenedorCarrito = document.querySelector("#lista-carrito tbody");
-const btnVaciarCarrito = document.querySelector("#vaciar-carrito");
-const cursos = document.querySelector("#lista-cursos");
+const contenedorCurso = document.querySelector("#lista-cursos");
+const contenedorCarrito = document.querySelector("#carrito");
+const contenedorDetCarrito = document.querySelector("#lista-carrito tbody");
+const vaciarCarrito = document.querySelector("#vaciar-carrito");
 
 let carrito = [];
 
-cargarEventos();
+inicializarEventsListeners();
 
-function cargarEventos() {
-    cursos.addEventListener("click", addCarrito);
+function inicializarEventsListeners() {
+  contenedorCurso.addEventListener("click", agregarCurso);
 }
 
-function addCarrito(e) {
-    e.preventDefault();
-
-    if (e.target.classList.contains("agregar-carrito")) {
-        const curso = e.target.parentElement.parentElement;
-        carrito.push(getCurso(curso));
-    }
-    console.log('carrito', carrito);
+function agregarCurso(e) {
+  e.preventDefault();
+  if (e.target.classList.contains("agregar-carrito")) {
+    const curso = getCurso(e.target.parentElement.parentElement);
+    carrito.push(curso);
+    updateCarritoHTML(curso);
+  }
 }
 
-//Obtener curso
-function getCurso(e) {
-    const curso = {
-      id: parseInt(e.querySelector("a").getAttribute("data-id")),
-      titulo: e.querySelector("h4").textContent,
-      img: e.querySelector("img").src,
-      precio: e.querySelector(".precio span").textContent,
-      cantidad: 1
-    };
-    return curso;
+function getCurso(pCurso) {
+  const curso = {
+    id: parseInt(pCurso.querySelector("a").getAttribute("data-id")),
+    titulo: pCurso.querySelector("h4").textContent,
+    autor: pCurso.querySelector("p").textContent,
+    cantidad: 1,
+    precio: pCurso.querySelector(".precio span").textContent,
+    imgURL: pCurso.querySelector("img").src,
+  };
+  return curso;
+}
+
+function updateCarritoHTML(curso) {
+  const row = document.createElement("tr");
+  row.innerHTML = `
+            <td> <img src="${curso.imgURL}" class="imagen-curso u-full-width" /> </td>
+            <td>  ${curso.titulo} </td>
+            <td>  ${curso.precio} </td>
+            <td>  ${curso.cantidad} </td>
+        `;
+  contenedorDetCarrito.appendChild(row);
 }
