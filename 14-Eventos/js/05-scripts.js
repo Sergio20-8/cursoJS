@@ -1,0 +1,1 @@
+document.addEventListener('mouseleave', () => console.log('se ha salido de la ventana'));
