@@ -9,6 +9,7 @@ inicializarEventsListeners();
 
 function inicializarEventsListeners() {
   contenedorCurso.addEventListener("click", agregarCurso);
+  vaciarCarrito.addEventListener("click", clearCarrito);
 }
 
 function agregarCurso(e) {
@@ -41,4 +42,11 @@ function updateCarritoHTML(curso) {
             <td>  ${curso.cantidad} </td>
         `;
   contenedorDetCarrito.appendChild(row);
+
+}
+
+function clearCarrito(e){
+  e.preventDefault();
+  carrito = [];
+  contenedorDetCarrito.innerHTML = "";
 }
